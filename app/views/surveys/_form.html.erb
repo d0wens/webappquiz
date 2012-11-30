@@ -1,0 +1,53 @@
+<%= form_for @survey do |f| %>
+  <%= render "shared/error_messages", :target => @survey %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :publish, "Publish?" %>
+    Yes <%= f.radio_button :published, true %> 
+    No <%= f.radio_button :published, false %>
+  </div>
+
+  <div class="field">
+    <%= f.label :due_date, "Due On" %><br />
+    <%= f.datetime_select :due_date, :ampm => true %>
+  </div>
+
+  <div class="field anonymous">
+    Make Survey Anonymous?<br />
+    Yes: <%= f.radio_button :anonymous, true %>
+    No: <%= f.radio_button :anonymous, false %>
+  </div>
+
+  <div class="field mc">
+    <%= @survey.questions.each do |q| %>
+    <%= f.fields_for q do |builder| %>
+      <% if q.allow_free_response == false%>
+      <%= render 'question_fields', :f => builder %>
+      <% else %>
+      <%= render 'short_answer_fields', :f => builder %>
+    <% end %>
+    <% end %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <p>
+    <% #SPEC: 2.2.10 : Adding a new questions to a Survey(form) %>
+    
+      <%= link_to_add_fields "Add Multiple Choice Question", f, :questions %><br />
+      <% #SPEC: 2.2.10 : Adding a new questions to a Survey(form) %>
+       <%= link_to_add_short_answer "Add Short Answer Question", f, :questions %>
+
+        <%= select("post", "question", Question.all.collect{|q| [q.content]}, {:prompt => 'Select Question'}) %>
+
+
+
+    </p>
+    <%= f.submit "Submit" %>
+  </div>
+
+<% end %>

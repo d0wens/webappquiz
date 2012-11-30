@@ -1,0 +1,105 @@
+<% title "Showing Results" %>
+<div class="center">
+<section id="survey_partial">
+<%= markdown "###{yield(:title)}" %>
+<%= markdown "### Student: #{current_user.name}" %>
+<%= markdown "### for: #{@survey.name.inspect}" %>
+
+<% exists = false %>
+<% Grades.all.each do |g| %>
+<% if g.user_id == current_user.id and g.survey_id == @survey.id %>
+  <% exists = true %>
+<% end %>  <% end %>
+
+<% if exists == false %>
+<% user = Grades.create(:user_id => current_user.id, :survey_id => @survey.id, :grade => -1) %>
+<% else %>
+  <% user = Grades.where({:user_id => current_user.id, :survey_id => @survey.id}) %>
+<% end %>
+<table id="take_survey_show">
+  <tr><td>
+  <ol>
+
+  <% if user.instance_of?(ActiveRecord::Relation)%>
+  <% user = user.first %>
+  <% end %>
+
+    
+  <% if user.grade == -1 %>
+  <% user.grade = 0 %>
+  <% @survey.questions.each do |question| %>
+    <%= content_tag(:li, label_tag(:question, question.content)) %>
+    <ol>
+      <% question.answers.each do |answer| %>
+        <%= content_tag_for(:li, answer) do %>
+          <% if question.allow_free_response %>
+            <br /><br />
+            <% textArea = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+            <%= text_area_tag :content, textArea.first.content,
+                  :rows => 3, :cols => 40, :disabled => true %>
+          <% else %>
+          <% blah = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+          <% unless blah.first.answer_id != answer.id%>
+            <span class="my-response">
+              <%= label_tag :answer, answer.content %>
+              <% if answer.correctAns == true %>
+                <%= "CORRECT" %>   
+                <% user.grade += question.points %>
+                <% user.save %>
+              <% else %>
+                <%= "INCORRECT" %>
+              <% end %>
+            </span>
+          <% else %>
+            <%= label_tag :answer, answer.content %>
+            <% if answer.correctAns == true %>
+              <%= "CORRECT" %>
+              <% user.grade += question.points %>
+              <% user.save %>
+            <% end %>
+          <% end %>
+          <% end %>
+        <% end %>
+        <% end %>
+      <% end %>
+    </ol>
+    <br />
+  <% else %>
+    <% @survey.questions.each do |question| %>
+    <%= content_tag(:li, label_tag(:question, question.content)) %>
+    <ol>
+      <% question.answers.each do |answer| %>
+        <%= content_tag_for(:li, answer) do %>
+          <% if question.allow_free_response %>
+            <br /><br />
+            <% textArea = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+            <%= text_area_tag :content, textArea.first.content,
+                  :rows => 3, :cols => 40, :disabled => true %>
+          <% else %>
+          <% blah = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+          <% unless blah.first.answer_id != answer.id%>
+            <span class="my-response">
+              <%= label_tag :answer, answer.content %>
+              <% if answer.correctAns == true %>
+                <%= "CORRECT" %>   
+              <% else %>
+                <%= "INCORRECT" %>
+              <% end %>
+            </span>
+          <% else %>
+            <%= label_tag :answer, answer.content %>
+            <% if answer.correctAns == true %>
+              <%= "CORRECT" %>
+            <% end %>
+          <% end %>
+          <% end %>
+        <% end %>
+        <% end %>
+      <% end %>
+  <% end %>
+  </ol>
+  </td></tr>
+</table>
+</section>
+USER SCORE <%= user.grade %> POINTS
+</div>

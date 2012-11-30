@@ -1,0 +1,17 @@
+<table class="pretty">
+  <tr>
+    <th><%= sortable "name", params[:scope] %> <em> (Click to Show)</em></th>
+    <th><%= sortable "email", params[:scope] %> <em> (Click to Edit)</em></th>
+  </tr>
+  <tr><%= will_paginate @students, :previous_label => "<<", :next_label => ">>" %></tr>
+  <% for student in @students %>
+    <tr>
+      <% if can? :show, student %>
+        <td><%= link_to student.name, student %></td>
+      <% end %>
+      <% if can? :edit, student %>
+        <td><%= link_to student.email, edit_user_path(student) %></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>

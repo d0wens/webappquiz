@@ -1,0 +1,21 @@
+<section>
+  <% @surveys.each do |survey| %>
+    <% if survey.due_date.past? %>
+      <div class="field">
+      <%= survey.name %>
+      No longer accepted.
+      <%= link_to "Show", take_survey_path(survey.id) %>
+    </div>
+    <% else %>
+    <div class="field">
+      <%= survey.name %>
+      <% unless survey_completed?(current_user, survey) %>
+        <%= link_to "Take", new_take_surveys_path(survey.id) %>
+      <% else %>
+        Completed.
+      <% end %>
+      <%= link_to "Show", take_survey_path(survey.id) %>
+    </div>
+  <% end %>
+  <% end %>
+</section>

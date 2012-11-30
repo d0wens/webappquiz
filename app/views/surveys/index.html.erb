@@ -1,0 +1,59 @@
+<% title "Listing Surveys" %>
+<%= render 'surveys/links' %>
+<div class="center">
+<section id="survey_partial">
+  <%= markdown "###{yield(:title)}" %>
+<table>
+  <tr>
+    <th>Name <em>(Click to Show)</em></th>
+    <% if can? :take, :survey %>
+      <th>Take</th>
+    <% end %>
+    <% if can? :show, :survey %>
+      <th>Show Results</th>
+    <% end %>
+    <th>Edit</th>
+    <th>View Report</th>
+    <th>Destroy?</th>
+  </tr>
+  <% for survey in @surveys %>
+    <tr>
+      <% if can? :index, survey %>
+        <td>
+          <%= link_to survey.name, survey %>
+        </td>
+      <% end %>
+      <% if can? :take, :survey %>
+        <td>
+          <% unless survey_completed?(current_user, survey) %>
+            <%= link_to "Take", new_take_surveys_path(survey) %>
+          <% else %>
+            Completed.
+          <% end %>
+        </td>
+      <% end %>
+      <% if can? :show, :survey %>
+        <td>
+          <%= link_to "Show Results", take_survey_path(survey) %>
+        </td>
+      <% end %>
+      <td>
+        <% if can? :edit, survey %>
+          <%= link_to "Edit", edit_survey_path(survey) %>
+        <% end %>
+      </td>
+      <td>
+        <% if can? :report, survey %>
+          <%= link_to "View Report", report_survey_path(survey) %>
+        <% end %>
+      </td>
+      <td>
+        <% if can? :destroy, survey %>
+          <%= link_to "Destroy", survey, :class => "delete",  :confirm => 'Are you sure?', :method => :delete %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+</section>
+</div>

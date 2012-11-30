@@ -1,0 +1,14 @@
+<%= title "Edit My Responses for: #{@survey.name}" %>
+<div class="center">
+  <section id="survey_partial">
+    <%= markdown "###{yield(:title)}" %>
+    <table>
+      <tr>
+        <th>Question<th>
+      </tr>
+      <tr>
+        <td>question content<td>
+      </tr>
+    </table>
+  </section>
+</div>

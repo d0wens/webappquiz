@@ -1,0 +1,6 @@
+<%= f.fields_for :answers do |builder| %>
+    <%= render 'answer_fields', :f => builder %>
+    <% end %>
+    <p class="add_answer">
+      <%= link_to_add_fields "Add Answer", f, :answers %>
+    </p>

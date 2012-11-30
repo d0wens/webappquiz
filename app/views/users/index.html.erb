@@ -1,0 +1,81 @@
+<%= title "Listing Users" %>
+
+<% # Show all the links relating to Users' actions %>
+<%= render 'users/links' %>
+
+<div class="center">
+  <section id="user_search_full">
+
+<%= markdown "###{yield(:title)}" %>
+
+<% if params[:scope] == "students" %>
+  <%= markdown "### Current Mode: Student" %>
+<% elsif params[:scope] == "advisors" %>
+  <%= markdown "### Current Mode: Advisor" %>
+<% elsif params[:scope] == "professors" %>
+  <%= markdown "### Current Mode: Professor" %>
+<% elsif params[:scope] == "gods" %>
+  <%= markdown "### Current Mode: God" %>
+<% else %>
+  <%= markdown "### Current Mode: All" %>
+<% end %>
+<% if params[:direction] == "desc" %>
+  <%= markdown "###Descending" %>
+<% elsif params[:direction] == "asc" %>
+  <%= markdown "###Ascending" %>
+<% end %>
+
+<% if @users.count > 0 %>
+  <%= markdown "####{@users.count} records returned." %>
+  <div id="paginate-count">
+    <%= markdown "### Showing page: #{@users.current_page} of #{@users.total_pages}." %>
+  </div>
+  <%= will_paginate @users %>
+  <table class="pretty">
+    <tr>
+      <th id="user_sort_links" colspan="20">
+        <% # Show all the links relating to sorting Users' actions %>
+        <%= render 'users/user_sort_links' %>
+        <%= yield :user_sort_links if content_for? :user_sort_links %>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <%= sortable "name", params[:scope] %>
+      </th>
+      <th>
+        <%= sortable "email", params[:scope] %>
+      </th>
+      <th>Destroyable?</th>
+      <th>Roles</th>
+    </tr>
+
+  <% @users.each do |user| %>
+    <tr>
+      <td>
+        <% if can? :show, user %>
+          <%= link_to user.name, user %>
+        <% end %>
+      </td>
+      <td>
+        <% if can? :edit, user %>
+          <%= link_to user.email, edit_user_path(user) %>
+        <% end %>
+      </td>
+      <td>
+        <% if can? :destroy, user %>
+          <%= link_to 'Destroy', user, :class => "delete", confirm: 'Are you sure?', method: :delete %>
+        <% end %>
+      </td>
+      <td>
+        <%= user.roles.to_s.humanize.downcase %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  <%= will_paginate @users %>
+<% else %>
+  <%= markdown "No users were found. Would you like to #{link_to "Create a User", new_user_path} ?" %>
+<% end %>
+</section>
+</div>

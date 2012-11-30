@@ -1,0 +1,20 @@
+<section id="users-listing">
+  <%= form_tag root_path, :method => :get, :id => "user_search", :remote => true do %>
+    <%= text_field_tag :search, params[:search], :size => 20 %>
+  <% end %>
+
+  <div id="user-list-content">
+    <div id="user-result">
+      <%= render :partial => "shared/user_search/list_simple" %>
+    </div>
+  </div>
+</section>
+<section id="user_flyout">
+  <div id="user_flyout_menu">
+    <ul>
+      <li><%= link_to new_user_path, :remote =>true, :class => :remote do %>New<% end %></li>
+      <li><%= link_to "Search", user_search_path %></li>
+      <li class="hide"><<</li>
+    </ul>
+  </div>
+</section>

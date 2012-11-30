@@ -1,0 +1,25 @@
+<nav id="user_links_nav">
+  <ul>
+    <% if can? :index, User %>
+      <li><%= link_to "Users Index", users_path %> |</li>
+    <% end %>
+    <% if can? :create, User %>
+      <li><%= link_to "Create New User", new_user_path %> |</li>
+    <% end %>
+    <% if can? :search, User %>
+      <li><%= link_to "User Search", user_search_path %></li>
+    <% end %>
+    <% if can? :edit, User %>
+      <%= yield :user_edit_links if content_for? :user_edit_links %>
+    <% end %>
+    <% if can? :show, User %>
+      <%= yield :user_show_links if content_for? :user_show_links %>
+    <% end %>
+    <% if can? :edit_my_details, User, :id => current_user.id %>
+      <%= yield :user_edit_my_details_links if content_for? :user_edit_my_details_links %>
+    <% end %>
+    <% if can? :edit_password, User, :id => current_user.id %>
+      <%= yield :user_edit_password_links if content_for? :user_edit_password_links %>
+    <% end %>
+  </ul>
+</nav>

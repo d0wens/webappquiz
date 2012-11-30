@@ -1,0 +1,51 @@
+<%= title "Showing User: #{@user.name}" %>
+<%= content_for :user_show_links do %>
+  <% if can? :edit, User %>
+    <li>| <%= link_to "Edit: #{@user.name.inspect}", edit_user_path(@user) %> |</li>
+  <% end %>
+  <% if can? :destroy, User %>
+    <li><%= link_to "Destroy: #{@user.name.inspect}", @user, :class => "delete", confirm: 'Are you sure?', method: :delete %></li>
+  <% end %>
+<% end %>
+
+<%= render 'users/links' %>
+<div class="center">
+  <section id="user_search_full">
+
+<%= markdown "###{yield(:title)}" %>
+<table class="round">
+  <tr>
+    <th class="left">Name</th>
+    <th class="left">Email <em>(Click to Edit)</em></th>
+    <% if can? :destroy, User %>
+      <th class="left">Destroy?</th>
+    <% end %>
+    <th class="left">Roles</th>
+  </tr>
+  <tr>
+    <% if can? :show, User %>
+      <td><%= link_to @user.name, @user %></td>
+    <% end %>
+    <% if can? :edit, User %>
+      <td><%= link_to @user.email, edit_user_path(@user) %></td>
+    <% end %>
+    <% if can? :destroy, User %>
+      <td>
+        <%= link_to 'Destroy', @user, :class => "delete", confirm: 'Are you sure?', method: :delete %>
+      </td>
+    <% end %>
+    <td>
+      <%= @user.roles.to_s.humanize.downcase %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <% if current_user == @user %>
+        <%= render 'users/current_user_links' %>
+        <%= yield :current_user_self_links if content_for? :current_user_self_links %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+</section>
+</div>

@@ -1,0 +1,10 @@
+<% if can? :assign_roles, @user %>
+<div class="field">
+  <%= label_tag :roles %><br />
+  <% for role in User::ROLES %>
+    <%= radio_button_tag "user[roles][]", role, @user.roles.include?(role) %>
+    <%=h role.humanize %><br />
+  <% end %>
+  <%= hidden_field_tag "user[roles][]", "" %>
+</div>
+<% end %>

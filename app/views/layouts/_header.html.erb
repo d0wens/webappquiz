@@ -1,0 +1,8 @@
+<header>
+  <nav>
+    <%= render 'layouts/main_links' %>
+    <%= yield :main_links if content_for? :main_links %>
+    <%= render 'layouts/current_user_links' %>
+    <%= yield :current_user_links if content_for? :current_user_links %>
+  </nav>
+</header>

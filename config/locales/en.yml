@@ -1,0 +1,18 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  roles:
+    description:
+      god: "You have all power over the application. There is nothing you can't do."
+      student: "You are a Student."
+      advisor: "You are an Advisor."
+      professor: "You are a Professor."
+  surveys:
+    questions:
+      allow_free_response: "This question allows a free response."
+      type_answer_here: "Please provide your response here."
+  application:
+    errors:
+      missing_title: "Secondary Education Department"
