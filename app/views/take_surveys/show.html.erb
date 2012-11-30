@@ -46,6 +46,8 @@
                 <%= "CORRECT" %>   
                 <% user.grade += question.points %>
                 <% user.save %>
+                <% blah.first.correct = true %>
+                <% blah.first.save %>
               <% else %>
                 <%= "INCORRECT" %>
               <% end %>
@@ -56,6 +58,8 @@
               <%= "CORRECT" %>
               <% user.grade += question.points %>
               <% user.save %>
+              <% blah.first.correct = true %>
+              <% blah.first.save %>
             <% end %>
           <% end %>
           <% end %>

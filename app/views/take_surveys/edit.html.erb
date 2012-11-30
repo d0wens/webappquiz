@@ -3,12 +3,39 @@
   <section id="survey_partial">
     <%= markdown "###{yield(:title)}" %>
     <table>
-      <tr>
-        <th>Question<th>
-      </tr>
-      <tr>
-        <td>question content<td>
-      </tr>
+      % @survey.questions.each do |question| %>
+    <%= content_tag(:li, label_tag(:question, question.content)) %>
+    <ol>
+      <% question.answers.each do |answer| %>
+        <%= content_tag_for(:li, answer) do %>
+          <% if question.allow_free_response %>
+            <br /><br />
+            <% textArea = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+            <%= text_area_tag :content, textArea.first.content,
+                  :rows => 3, :cols => 40, :disabled => true %>
+          <% else %>
+          <% blah = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+          <% unless blah.first.answer_id != answer.id%>
+            <span class="my-response">
+              <%= label_tag :answer, answer.content %>
+              <% if answer.correctAns == true %>
+                <%= "CORRECT" %>   
+              <% else %>
+                <%= "INCORRECT" %>
+              <% end %>
+            </span>
+          <% else %>
+            <%= label_tag :answer, answer.content %>
+            <% if answer.correctAns == true %>
+              <%= "CORRECT" %>
+            <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+
+
     </table>
   </section>
 </div>

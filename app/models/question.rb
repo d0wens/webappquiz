@@ -12,9 +12,9 @@
 #
 
 class Question < ActiveRecord::Base
-  attr_accessible :content, :answers_attributes, :anonymous, :allow_free_response, :survey_id, :points
+  attr_accessible :points, :content, :anonymous, :allow_free_response, :survey_id, :points, :id, :created_at, :updated_at
 
-  belongs_to :survey
+  belongs_to :surveys
   has_many :answers, :dependent => :destroy
 
   #SPEC: 5.3.1.1: Content

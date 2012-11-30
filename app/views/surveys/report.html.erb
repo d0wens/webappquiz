@@ -33,11 +33,13 @@
         
         <% # make a new row for every questions answer %>
         <% question.answers.each do |answer| %>
+        <% pointsWorth = question.points %>
           <% if question.allow_free_response %>
-            <% textArea = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
-            <%= textArea.first.content%><br/><br/>
+            <% textArea = Response.where({:question_id => question.id, :user_id => user.id}) %>
+            <%= textArea.first.content%>
+            Correct? <%= check_box score+=pointsWorth%><br/><br/>
           <% else %>
-           <% textArea = Response.where({:question_id => question.id, :user_id => current_user.id}) %>
+           <% textArea = Response.where({:question_id => question.id, :user_id => user.id}) %>
            <% answerID = textArea.first.answer_id %>
            <% if answer.correctAns %> 
            <% if answerID ==answer.id %>
@@ -54,7 +56,7 @@
         <% end %>
       </tr>
       <% end %>
-      STUDENT SCORED <%= score.first.grade %>
+      STUDENT SCORED <%= score.first.grade %> <br/><br/><br/>
       <% end %>
   </section>
 </div>

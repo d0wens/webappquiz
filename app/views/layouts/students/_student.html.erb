@@ -4,7 +4,9 @@
       <div class="field">
       <%= survey.name %>
       No longer accepted.
+      <% if survey_completed?(current_user, survey) %>
       <%= link_to "Show", take_survey_path(survey.id) %>
+      <% end %>
     </div>
     <% else %>
     <div class="field">
@@ -15,6 +17,7 @@
         Completed.
       <% end %>
       <%= link_to "Show", take_survey_path(survey.id) %>
+      <%= link_to "Edit", new_take_surveys_path(survey.id) %>
     </div>
   <% end %>
   <% end %>

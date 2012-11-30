@@ -33,9 +33,16 @@
         </td>
       <% end %>
       <% if can? :show, :survey %>
+        <% if survey_completed?(current_user, survey) %>
         <td>
           <%= link_to "Show Results", take_survey_path(survey) %>
         </td>
+        <% else %>
+        <td>
+          Complete the survey first
+        </td>
+        <% end %>
+        
       <% end %>
       <td>
         <% if can? :edit, survey %>

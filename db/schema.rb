@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121130141254) do
+ActiveRecord::Schema.define(:version => 20121130180937) do
 
   create_table "answers", :force => true do |t|
     t.integer  "question_id"
@@ -58,10 +58,11 @@ ActiveRecord::Schema.define(:version => 20121130141254) do
   create_table "responses", :force => true do |t|
     t.integer  "answer_id"
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.text     "content"
     t.integer  "question_id"
+    t.boolean  "correct",     :default => false
   end
 
   add_index "responses", ["answer_id"], :name => "index_responses_on_answer_id"

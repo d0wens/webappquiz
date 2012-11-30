@@ -13,7 +13,7 @@
 
 class Survey < ActiveRecord::Base
   after_save :check_anonymous
-  attr_accessible :name, :published, :due_date, :questions_attributes, :anonymous
+  attr_accessible  :question_attributes, :name, :published, :due_date, :anonymous, :created_at, :id, :updated_at
   has_many :questions, :dependent => :destroy
   accepts_nested_attributes_for :questions,
         :reject_if => lambda { |q| q[:content].blank? },
