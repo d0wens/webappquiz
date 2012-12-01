@@ -32,6 +32,11 @@ class SurveysController < ApplicationController
 
   #SPEC: 2.2.7: Update the DB with the new Survey(form)
   def update
+    params[:survey].each do |h|
+      if h == "questions"
+        params[:survey].remove(h)
+      end
+    end
     if @survey.update_attributes(params[:survey])
       redirect_to @survey
     else

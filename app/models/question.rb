@@ -32,4 +32,8 @@ class Question < ActiveRecord::Base
   def my_questions
     Question.by_survey(self.survey_id).map(&:id)
   end
+
+  def attributes
+
+  end
 end
