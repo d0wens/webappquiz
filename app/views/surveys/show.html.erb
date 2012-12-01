@@ -1,4 +1,4 @@
-<% title "Showing Survey" %>
+<% title "Showing Assignment" %>
 <%= content_for :survey_show_links do %>
   <% if can? :edit, @survey %>
     <li>| <%= link_to "Edit: #{@survey.name.inspect}", edit_survey_path(@survey) %> |</li>

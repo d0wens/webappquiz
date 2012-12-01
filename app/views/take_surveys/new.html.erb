@@ -1,5 +1,5 @@
 <% unless survey_completed?(current_user, @survey) %>
-  <%= title "Taking Survey: #{@survey.name}" %>
+  <%= title "Taking Assignment: #{@survey.name}" %>
 <div class="center">
 <section id="survey_partial">
   <%= markdown "###{yield(:title)}" %>
@@ -42,11 +42,11 @@
   </section>
   </div>
 <% else %>
-  <%= title "Survey Completed: #{@survey.name}" %>
+  <%= title "Assignment Completed: #{@survey.name}" %>
   <%= markdown "###{yield(:title)}" %>
   <div class="center">
     <section id="survey_partial">
-    <%= markdown "# You have already completed this survey." %>
+    <%= markdown "# You have already completed this Assignment." %>
     </section>
   </div>
 <% end %>

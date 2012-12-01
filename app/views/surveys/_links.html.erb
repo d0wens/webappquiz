@@ -2,10 +2,10 @@
 <nav id="survey_links_nav">
   <ul>
     <% if can? :index, Survey %>
-      <li><%= link_to "Survey Index", surveys_path %> |</li>
+      <li><%= link_to "Assignment Index", surveys_path %> |</li>
     <% end %>
     <% if can? :create, Survey %>
-      <li><%= link_to "Create New Survey", new_survey_path %></li>
+      <li><%= link_to "Create New Assignment", new_survey_path %></li>
     <% end %>
     <% if can? :edit, Survey %>
       <%= yield :survey_edit_links if content_for? :survey_edit_links %>
